@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doc-ms
+  namespace: angel-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doc-ms
+  template:
+    metadata:
+      labels:
+        app: doc-ms
+    spec:
+      containers:
+      - name: doc-ms
+        image: documents-ms:0.0.0.1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        env:
+          - name: DEBUG
+            value: "false"
+          - name: SECURITY_MANAGER_URL
+            value: "http://sec-svc.angel-ns.svc.cluster.local:5002/alive"
